@@ -1,0 +1,27 @@
+services:
+
+  postgres:
+    image: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    volumes:
+      - ./database:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: toor
+  
+  pgadmin:
+    image: elestio/pgadmin
+    restart: always
+    ports:
+      - 127.0.0.1:8080:80
+    volumes:
+      - ./pgadmin/servers.json:/pgadmin4/servers.json
+    environment:
+      PGADMIN_DEFAULT_EMAIL: kourosh@sys32.ir
+      PGADMIN_DEFAULT_PASSWORD: admin
+    depends_on:
+      postgres:
+        condition: service_started
+
